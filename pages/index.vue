@@ -19,16 +19,14 @@ export default {
   data() {
     return {
       zoom: 3,
-      userLocation: [47.41322, -1.219482], // Default location
+      userLocation: [47.41322, -1.219482],
       geojson: {
         type: "FeatureCollection",
         features: [
-          // ...
         ],
       },
       geojsonOptions: {
         pointToLayer: this.createCircleMarker,
-        // Other options
       },
       formData: {
         country: "",
@@ -43,11 +41,11 @@ export default {
     const { circleMarker } = await import("leaflet/dist/leaflet-src.esm");
     this.geojsonOptions.pointToLayer = (feature, latLng) =>
       circleMarker(latLng, { radius: 8 });
-    this.getUserLocation(); // Get user's location on mount
+    this.getUserLocation();
   },
   methods: {
     createCircleMarker(feature, latLng) {
-      const { circleMarker } = L; // Import circleMarker from Leaflet
+      const { circleMarker } = L;
       return circleMarker(latLng, { radius: 8 });
     },
     getUserLocation() {
@@ -56,7 +54,6 @@ export default {
           const { latitude, longitude } = position.coords;
           this.userLocation = [latitude, longitude];
 
-          // Assuming you have a function to fetch address details from coordinates
           this.fetchAddressFromCoordinates(latitude, longitude)
             .then((address) => {
               this.formData.country = address.country;
@@ -74,26 +71,21 @@ export default {
       }
     },
     async fetchAddressFromCoordinates(latitude, longitude) {
-      // Use an API or service to fetch address details based on coordinates
-      // For example, you can use the OpenStreetMap Nominatim API as shown before.
       const response = await fetch(
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
       );
       const data = await response.json();
-
-      // Extract the address components you need
       const address = {
         country: data.address.country,
         state: data.address.state,
         city: data.address.city,
-        street: data.address.road, // Use road property for street
+        street: data.address.road,
         zipCode: data.address.postcode,
       };
 
       return address;
     },
   },
-  // Other methods and lifecycle hooks...
 };
 </script>
 
