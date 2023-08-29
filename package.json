@@ -13,5 +13,8 @@
     "@vue-leaflet/vue-leaflet": "^0.10.1",
     "leaflet": "^1.9.4",
     "nuxt": "^3.7.0"
+  },
+  "dependencies": {
+    "@nuxtjs/google-fonts": "^3.0.2"
   }
 }
