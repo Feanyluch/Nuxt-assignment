@@ -75,6 +75,7 @@ export default {
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
       );
       const data = await response.json();
+<<<<<<< HEAD
 
       console.log("Fetched address data:", data);
 
@@ -82,6 +83,12 @@ export default {
         country: data.address.country,
         state: data.address.state,
         city: data.address.county,
+=======
+      const address = {
+        country: data.address.country,
+        state: data.address.state,
+        city: data.address.city,
+>>>>>>> 7094fd5895b6dc8f7313ca3a6cab8dede04dd4b0
         street: data.address.road,
         zipCode: data.address.postcode,
       };
