@@ -32,6 +32,7 @@ input {
     outline: none;
     border: 1px solid rgb(196, 195, 195);
     border-radius: 5px;
+    font-family: 'Inter', sans-serif;
 }
 </style>
   

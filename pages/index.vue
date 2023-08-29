@@ -1,6 +1,7 @@
 <template>
   <div class="card">
-    <div class="flex">
+    <h2>Location</h2>
+    <div class="grid">
       <address-form :value="formData" />
       <map-component :zoom="zoom" :user-location="userLocation" :geojson="geojson" :geojson-options="geojsonOptions" />
     </div>
@@ -104,7 +105,11 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-.flex {
+h2{
+  color: gray;
+}
+
+.grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   background: #ffffff;
@@ -119,6 +124,7 @@ body {
   /* padding: 20px; */
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
