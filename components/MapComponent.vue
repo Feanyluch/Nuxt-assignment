@@ -12,7 +12,6 @@
 <script>
 import "leaflet/dist/leaflet.css";
 import { LMap, LTileLayer, LGeoJson, LMarker } from "@vue-leaflet/vue-leaflet";
-import { computed } from 'vue';
 
 export default {
     name: "MapComponent",

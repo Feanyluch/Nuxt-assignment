@@ -77,15 +77,13 @@ export default {
         zipCode: data.address.postcode,
       };
 
-      console.log("Address", data.address.country)
-
       return address;
     };
 
     onBeforeMount(async () => {
       const { circleMarker } = await import("leaflet/dist/leaflet-src.esm");
       geojsonOptions.value.pointToLayer = (feature, latLng) =>
-        createCircleMarker(feature, latLng); // Use the locally defined function
+        createCircleMarker(feature, latLng);
       getUserLocation();
     });
 
