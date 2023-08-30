@@ -19,14 +19,14 @@ export default {
     AddressForm,
   },
   setup() {
-    const zoom = ref(3);
+    const zoom = ref(4);
     const userLocation = ref([47.41322, -1.219482]);
     const geojson = ref({
       type: "FeatureCollection",
       features: [],
     });
     const geojsonOptions = ref({
-      pointToLayer: createCircleMarker,
+      pointToLayer: null,
     });
     const formData = ref({
       country: "",
@@ -77,13 +77,15 @@ export default {
         zipCode: data.address.postcode,
       };
 
+      console.log("Address", data.address.country)
+
       return address;
     };
 
     onBeforeMount(async () => {
       const { circleMarker } = await import("leaflet/dist/leaflet-src.esm");
       geojsonOptions.value.pointToLayer = (feature, latLng) =>
-        circleMarker(latLng, { radius: 8 });
+        createCircleMarker(feature, latLng); // Use the locally defined function
       getUserLocation();
     });
 
@@ -98,6 +100,7 @@ export default {
 };
 </script>
 
+
 <style>
 body {
   padding: 0;
@@ -107,7 +110,7 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-h2{
+h2 {
   color: gray;
 }
 
@@ -131,7 +134,3 @@ h2{
   align-items: center;
 }
 </style>
-  
-
-
-

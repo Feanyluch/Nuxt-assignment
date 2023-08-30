@@ -1,16 +1,16 @@
 <template>
     <form class="form">
-        <form-input v-model="formData.country" label="Country" />
-        <form-input v-model="formData.state" label="State" />
-        <form-input v-model="formData.city" label="City" />
-        <form-input v-model="formData.street" label="Street" />
-        <form-input v-model="formData.zipCode" label="Zip Code" />
+        <form-input :value="formData.country" label="Country" />
+        <form-input :value="formData.state" label="State" />
+        <form-input :value="formData.city" label="City" />
+        <form-input :value="formData.street" label="Street" />
+        <form-input :value="formData.zipCode" label="Zip Code" />
     </form>
 </template>
   
 <script>
-import FormInput from "@/components/FormInput.vue"; // Adjust the path accordingly
-import { ref } from 'vue';
+import FormInput from "@/components/FormInput.vue";
+import { toRefs } from 'vue';
 
 export default {
     name: "AddressForm",
@@ -20,8 +20,8 @@ export default {
     props: {
         value: Object,
     },
-    setup(props, { emit }) {
-        const formData = ref(props.value);
+    setup(props) {
+        const { value: formData } = toRefs(props);
 
         return {
             formData,
@@ -30,7 +30,4 @@ export default {
 };
 </script>
   
-<style>
-/* ... styles ... */
-</style>
-  
+<style></style>
