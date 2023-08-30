@@ -19,7 +19,7 @@ export default {
     AddressForm,
   },
   setup() {
-    const zoom = ref(4);
+    const zoom = ref(3);
     const userLocation = ref([47.41322, -1.219482]);
     const geojson = ref({
       type: "FeatureCollection",
