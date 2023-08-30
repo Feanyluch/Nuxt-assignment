@@ -9,7 +9,7 @@
 </template>
   
 <script>
-import FormInput from "@/components/FormInput.vue";
+import FormInput from "@/components/FormInput.vue"; // Adjust the path accordingly
 import { ref } from 'vue';
 
 export default {
@@ -24,12 +24,13 @@ export default {
         const formData = ref(props.value);
 
         return {
-            formData: formData,
+            formData,
         };
     },
 };
 </script>
   
 <style>
+/* ... styles ... */
 </style>
   

@@ -11,73 +11,63 @@
 <script>
 import MapComponent from "@/components/MapComponent.vue";
 import AddressForm from "@/components/AddressForm.vue";
+import { ref, onBeforeMount } from 'vue';
 
 export default {
   components: {
     MapComponent,
     AddressForm,
   },
-  data() {
-    return {
-      zoom: 3,
-      userLocation: [47.41322, -1.219482],
-      geojson: {
-        type: "FeatureCollection",
-        features: [
-        ],
-      },
-      geojsonOptions: {
-        pointToLayer: this.createCircleMarker,
-      },
-      formData: {
-        country: "",
-        state: "",
-        city: "",
-        street: "",
-        zipCode: "",
-      },
-    };
-  },
-  async beforeMount() {
-    const { circleMarker } = await import("leaflet/dist/leaflet-src.esm");
-    this.geojsonOptions.pointToLayer = (feature, latLng) =>
-      circleMarker(latLng, { radius: 8 });
-    this.getUserLocation();
-  },
-  methods: {
-    createCircleMarker(feature, latLng) {
+  setup() {
+    const zoom = ref(3);
+    const userLocation = ref([47.41322, -1.219482]);
+    const geojson = ref({
+      type: "FeatureCollection",
+      features: [],
+    });
+    const geojsonOptions = ref({
+      pointToLayer: createCircleMarker,
+    });
+    const formData = ref({
+      country: "",
+      state: "",
+      city: "",
+      street: "",
+      zipCode: "",
+    });
+
+    const createCircleMarker = (feature, latLng) => {
       const { circleMarker } = L;
       return circleMarker(latLng, { radius: 8 });
-    },
-    getUserLocation() {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          const { latitude, longitude } = position.coords;
-          this.userLocation = [latitude, longitude];
+    };
 
-          this.fetchAddressFromCoordinates(latitude, longitude)
-            .then((address) => {
-              this.formData.country = address.country;
-              this.formData.state = address.state;
-              this.formData.city = address.city;
-              this.formData.street = address.street;
-              this.formData.zipCode = address.zipCode;
-            })
-            .catch((error) => {
-              console.error("Error fetching address:", error);
-            });
+    const getUserLocation = () => {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+          const { latitude, longitude } = position.coords;
+          userLocation.value = [latitude, longitude];
+
+          try {
+            const address = await fetchAddressFromCoordinates(latitude, longitude);
+            formData.value.country = address.country;
+            formData.value.state = address.state;
+            formData.value.city = address.city;
+            formData.value.street = address.street;
+            formData.value.zipCode = address.zipCode;
+          } catch (error) {
+            console.error("Error fetching address:", error);
+          }
         });
       } else {
         console.error("Geolocation is not available.");
       }
-    },
-    async fetchAddressFromCoordinates(latitude, longitude) {
+    };
+
+    const fetchAddressFromCoordinates = async (latitude, longitude) => {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
       );
       const data = await response.json();
-
-      console.log("Fetched address data:", data);
 
       const address = {
         country: data.address.country,
@@ -87,11 +77,23 @@ export default {
         zipCode: data.address.postcode,
       };
 
-      console.log("Extrated Address", address)
-
       return address;
-    },
+    };
 
+    onBeforeMount(async () => {
+      const { circleMarker } = await import("leaflet/dist/leaflet-src.esm");
+      geojsonOptions.value.pointToLayer = (feature, latLng) =>
+        circleMarker(latLng, { radius: 8 });
+      getUserLocation();
+    });
+
+    return {
+      zoom,
+      userLocation,
+      geojson,
+      geojsonOptions,
+      formData,
+    };
   },
 };
 </script>

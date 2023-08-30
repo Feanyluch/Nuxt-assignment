@@ -1,5 +1,5 @@
 <template>
-    <div style="" class="map">
+    <div class="map">
         <l-map :zoom="zoom" :center="userLocation" :useGlobalLeaflet="false">
             <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" layer-type="base"
                 name="OpenStreetMap"></l-tile-layer>
@@ -12,6 +12,7 @@
 <script>
 import "leaflet/dist/leaflet.css";
 import { LMap, LTileLayer, LGeoJson, LMarker } from "@vue-leaflet/vue-leaflet";
+import { computed } from 'vue';
 
 export default {
     name: "MapComponent",
@@ -29,6 +30,7 @@ export default {
     },
 };
 </script>
+  
   
 <style>
 .map {
